@@ -1,4 +1,5 @@
 <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Painel Zinzane</title>
 <meta name="description" content="Painel de vendas, logística e marketing da Zinzane com dados ao vivo da Vtex e do Google Analytics.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -515,6 +516,89 @@
   footer.foot {
     max-width: 1180px; margin: 30px auto 0; padding-top: 16px; border-top: 1px solid var(--border);
     font-size: 11.5px; color: var(--text-muted); display: flex; justify-content: space-between; flex-wrap: wrap; gap: 8px;
+  }
+
+  /* ---------- Celular (<= 700px) ----------
+     Cabeçalho compacto (logo + ações numa linha, abas rolando na horizontal numa linha só em
+     vez de quebrar em 3), filtro de período rolável, cards/tabelas/fotos em escala menor.
+     `header.topbar { display: contents }` faz o .topbar-inner virar filho direto do #app, pra
+     só ele (logo + abas) ficar fixo no topo ao rolar — o filtro de período rola junto com a
+     página, em vez de comer ~1/3 da tela o tempo todo como acontecia com o cabeçalho inteiro
+     fixo. */
+  @media (max-width: 700px) {
+    body { padding-inline: 12px; padding-block: 0 28px; }
+    .login-screen { margin-inline: -12px; }
+    header.topbar { display: contents; }
+    .topbar-inner {
+      position: sticky; top: env(safe-area-inset-top, 0px); z-index: 40;
+      max-width: none; margin: 0 -12px; padding: 10px 12px 8px; gap: 8px;
+      background: color-mix(in srgb, var(--bg) 82%, transparent);
+      backdrop-filter: blur(22px) saturate(180%); -webkit-backdrop-filter: blur(22px) saturate(180%);
+      border-bottom: 1px solid var(--border);
+    }
+    .brand .sub { display: none; }
+    .brand .logo { height: 20px; }
+    .topbar-actions { gap: 6px; }
+    .user-menu { padding-left: 0; border-left: none; }
+    .user-menu .email { display: none; }
+    .btn-secondary { padding: 7px 13px; }
+    .refresh-btn { width: 34px; height: 34px; padding: 0; justify-content: center; gap: 0; font-size: 0; }
+    .refresh-btn svg { width: 15px; height: 15px; }
+    nav.tabs {
+      order: 3; width: 100%; flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none;
+      -webkit-overflow-scrolling: touch; overscroll-behavior-x: contain;
+    }
+    nav.tabs::-webkit-scrollbar { display: none; }
+    nav.tabs button { flex: 0 0 auto; white-space: nowrap; padding: 8px 13px; }
+
+    .filterbar { padding-block: 10px 6px; gap: 10px; }
+    .period-presets { width: 100%; overflow-x: auto; scrollbar-width: none; -webkit-overflow-scrolling: touch; }
+    .period-presets::-webkit-scrollbar { display: none; }
+    .period-presets button { flex: 0 0 auto; white-space: nowrap; padding: 7px 13px; }
+    .period-custom { width: 100%; flex-wrap: wrap; }
+    .period-custom input[type="date"] { flex: 1 1 130px; min-width: 0; padding: 8px 12px; font-size: 14px; }
+    .period-label { margin-left: 0; width: 100%; }
+
+    main { padding-top: 12px; }
+    .section-head { margin: 22px 0 10px; }
+    .section-head h2 { font-size: 19px; }
+    .grid, .kpi-row { gap: 10px; }
+    .card { padding: 14px 14px; }
+    .card h3 { margin-bottom: 10px; }
+    .stat-value { font-size: 26px; }
+
+    /* tabelas: rolam na horizontal dentro do card em vez de estourar a página */
+    .table-wrap { -webkit-overflow-scrolling: touch; }
+    tbody td { padding: 8px 8px; }
+    thead th { padding: 0 8px 8px; }
+
+    /* Top produtos: foto grande (192px) ocuparia a tela toda — encolhe e tira a coluna
+       Categoria pra caber produto + unidades + valor + estoque sem rolar de lado */
+    .produto-thumb { width: 50px; height: 50px; border-radius: 8px; }
+    .produto-cell { gap: 8px; }
+    .tamanhos-toggle { white-space: nowrap; }
+    #card-top-produtos thead th:nth-child(2),
+    #card-top-produtos tbody tr:not(.tamanhos-row) td:nth-child(2) { display: none; }
+    #card-top-produtos thead th { white-space: normal; line-height: 1.2; vertical-align: bottom; padding-inline: 3px; font-size: 9px; letter-spacing: 0; }
+    #card-top-produtos tbody td { padding-inline: 3px; font-size: 13px; }
+    #card-top-produtos .produto-thumb { width: 40px; height: 40px; }
+    #card-top-produtos .tamanhos-toggle { font-size: 12px; }
+    #card-top-produtos .produto-cell { gap: 7px; }
+    #card-top-produtos .produto-nome { overflow-wrap: anywhere; }
+    #card-top-produtos .badge { padding: 2px 7px; font-size: 11px; }
+    #card-top-produtos tbody tr:not(.tamanhos-row) td.wrap { min-width: 0; }
+    tr.tamanhos-row td { padding: 8px 4px; white-space: normal; }
+    table.tamanhos-mini th { padding: 4px 4px; font-size: 9.5px; letter-spacing: 0; white-space: normal; }
+    table.tamanhos-mini td { padding: 4px 4px; font-size: 12px; white-space: normal; }
+    table.tamanhos-mini td.num { white-space: nowrap; }
+    table.tamanhos-mini td:first-child { word-break: break-word; }
+    /* colunas de nome (texto longo) nas demais tabelas: largura mínima razoável e a tabela
+       rola na horizontal, em vez de esmagar o nome em 6 linhas de 1 palavra */
+    tbody td.wrap { min-width: 170px; }
+
+    .abc-controls { gap: 8px; }
+    .status-filter { gap: 6px; }
+    footer.foot { margin-top: 22px; }
   }
 </style>
 
@@ -1304,8 +1388,15 @@
     if (!seriesArr.length || !n) return showEmpty(container);
 
     var showLegend = seriesArr.length >= 2;
-    var W = 960, H = 300;
-    var marginTop = 16, marginRight = 74, marginBottom = 26, marginLeft = 64;
+    // Em tela estreita (celular) o viewBox fixo de 960px encolhia o gráfico inteiro, deixando
+    // rótulos de eixo e do valor final minúsculos. Aí usamos a largura real do container como
+    // largura do viewBox (1 unidade do SVG ~ 1px de tela, texto fica no tamanho nominal) e
+    // margens menores; em telas largas continua exatamente como antes (960x300).
+    var containerW = container.clientWidth || 0;
+    var compact = containerW > 0 && containerW < 560;
+    var W = compact ? Math.max(containerW, 260) : 960;
+    var H = compact ? 240 : 300;
+    var marginTop = 16, marginRight = compact ? 52 : 74, marginBottom = 26, marginLeft = compact ? 50 : 64;
     var plotW = W - marginLeft - marginRight, plotH = H - marginTop - marginBottom;
 
     var maxVal = 0;
@@ -1341,7 +1432,7 @@
 
     // Rótulos do eixo X — no máximo 6, nunca um por dia (viraria ilegível com 90 dias)
     var primaryDates = (seriesArr[0] && seriesArr[0].dates) || [];
-    var xTickCount = Math.min(6, n);
+    var xTickCount = Math.min(compact ? 4 : 6, n);
     var xTickIdx = [];
     for (var k = 0; k < xTickCount; k++) {
       xTickIdx.push(xTickCount <= 1 ? 0 : Math.round((k / (xTickCount - 1)) * (n - 1)));
